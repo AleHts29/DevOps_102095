@@ -1,0 +1,59 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: #0d1b2a;
+  color: #f1f5f9;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+}
+
+main { max-width: 34rem; }
+
+.kicker {
+  color: #06d6a0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
+  line-height: 1.1;
+  margin-bottom: 1.2rem;
+}
+
+.lead { color: #a9c0d0; line-height: 1.65; margin-bottom: 2rem; }
+
+code {
+  background: #17334a;
+  color: #06d6a0;
+  padding: 0.15em 0.45em;
+  border-radius: 4px;
+  font-size: 0.92em;
+}
+
+.card {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  background: #17334a;
+  border-radius: 10px;
+  padding: 0.9rem 1.4rem;
+  margin-bottom: 2rem;
+}
+
+.label {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8fa6b8;
+}
+
+.value { font-size: 1.4rem; font-weight: 700; color: #06d6a0; }
+
+.firma { font-size: 0.85rem; color: #5c6f7e; }

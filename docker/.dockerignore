@@ -1,0 +1,7 @@
+# Archivos que NO queremos copiar dentro de la imagen.
+# Mantener la imagen chica es parte del trabajo.
+.git
+.gitignore
+*.md
+node_modules
+.DS_Store

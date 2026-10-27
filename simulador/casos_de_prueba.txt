@@ -1,0 +1,59 @@
+Los cuatro casos visibles de la plataforma.
+Probá tu solución con cada uno antes de enviar.
+
+═══ CASO 1 — Básico ═══
+Entrada:
+7
+clone repo1
+commit
+branch feature
+checkout feature
+commit
+checkout main
+merge feature
+
+Salida esperada:
+main 3
+
+═══ CASO 2 — Merge sin commits adicionales ═══
+Entrada:
+6
+clone repo1
+branch dev
+checkout dev
+checkout main
+merge dev
+commit
+
+Salida esperada:
+main 1
+
+═══ CASO 3 — Múltiples ramas y merges ═══
+Entrada:
+12
+clone repo1
+commit
+branch feature1
+branch feature2
+checkout feature1
+commit
+checkout feature2
+commit
+commit
+checkout main
+merge feature1
+merge feature2
+
+Salida esperada:
+main 6
+
+═══ CASO 4 — Checkout a rama inexistente ═══
+Entrada:
+5
+clone repo1
+commit
+checkout unknown
+commit
+
+Salida esperada:
+main 2
