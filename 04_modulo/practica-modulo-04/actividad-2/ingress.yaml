@@ -1,0 +1,27 @@
+# ─────────────────────────────────────────────────────────────
+# ACTIVIDAD 2 — Ingress
+#
+# ANTES de aplicar esto:   minikube addons enable ingress
+# Sin el controller, el objeto se crea, no da error, y no hace nada.
+# ─────────────────────────────────────────────────────────────
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-ingress
+spec:
+  # Qué controller tiene que atender estas reglas.
+  ingressClassName: nginx
+
+  rules:
+    # El dominio por el que vas a entrar. No hace falta que exista
+    # de verdad: podés mandarlo como cabecera Host con curl.
+    - host: mi-app.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: web-svc   # el Service de la actividad 1
+                port:
+                  number: 80

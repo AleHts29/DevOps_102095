@@ -1,0 +1,43 @@
+# ─────────────────────────────────────────────────────────────
+# ACTIVIDAD 1 — Completá los lugares marcados con ___
+#
+# Pista: hay DOS huecos en este archivo y UNO en service.yaml.
+# Los tres tienen que ser coherentes entre sí.
+# ─────────────────────────────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  # ¿Cuántas copias del pod querés que existan SIEMPRE?
+  replicas: 3
+
+  # Cómo el Deployment reconoce cuáles pods son suyos.
+  selector:
+    matchLabels:
+      app: web
+
+  # El molde con el que se crea cada pod.
+  template:
+    metadata:
+      labels:
+        # Esta etiqueta TIENE que coincidir con el selector de arriba.
+        # Si no coincide: no hay error, pero tampoco hay pods.
+        app: web
+    spec:
+      containers:
+        - name: web
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+
+
+          # Sin requests, el scheduler trabaja a ciegas y el HPA
+          # de la actividad 2 no va a poder calcular nada.
+          resources:
+            requests:
+              memory: "32Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"

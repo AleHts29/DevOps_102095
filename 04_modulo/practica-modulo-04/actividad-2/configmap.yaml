@@ -1,0 +1,13 @@
+# ─────────────────────────────────────────────────────────────
+# BONUS — ConfigMap
+# Para el grupo que termine antes: sacar la configuración de la
+# imagen y pasarla por variables de entorno.
+# ─────────────────────────────────────────────────────────────
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: web-config
+data:
+  AMBIENTE: "clase-4"
+  NIVEL_LOG: "info"
+  MENSAJE: "Hola desde Kubernetes"

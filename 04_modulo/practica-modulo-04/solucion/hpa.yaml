@@ -1,0 +1,33 @@
+# ─────────────────────────────────────────────────────────────
+# ACTIVIDAD 2 — Horizontal Pod Autoscaler
+#
+# ANTES de aplicar esto hacen falta DOS cosas:
+#   1) minikube addons enable metrics-server
+#   2) que el Deployment tenga resources.requests.cpu
+#
+# Si falta alguna, kubectl get hpa muestra <unknown> en TARGETS
+# y nunca escala. No da ningún error.
+# ─────────────────────────────────────────────────────────────
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: web-hpa
+spec:
+  # A quién escala.
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: web
+
+  minReplicas: 2
+  maxReplicas: 10
+
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          # 50 % del REQUEST, no del total del nodo.
+          # Con requests.cpu = 50m, el objetivo son 25m por pod.
+          averageUtilization: 50

@@ -1,0 +1,22 @@
+# ─────────────────────────────────────────────────────────────
+# ACTIVIDAD 1 — Completá los lugares marcados con ___
+#
+# El Service NO conoce al Deployment. Se encuentran por labels.
+# ─────────────────────────────────────────────────────────────
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-svc
+spec:
+  # ¿Qué tipo necesitás para poder abrirlo desde el navegador
+  # estando en Minikube?  (ClusterIP / NodePort / LoadBalancer)
+  type: NodePort
+
+  # Tiene que coincidir con las labels de los PODS,
+  # es decir con lo que pusiste en el template del Deployment.
+  selector:
+    app: web
+
+  ports:
+    - port: 80         # puerto del Service dentro del cluster
+      targetPort: 80   # puerto del contenedor
