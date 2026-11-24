@@ -1,0 +1,43 @@
+# ─────────────────────────────────────────────────────────────
+# Reglas de alerta — práctica del Módulo 6
+#
+# Fijate que las tres alertan sobre SÍNTOMAS que nota el usuario,
+# no sobre causas internas como CPU o memoria.
+# ─────────────────────────────────────────────────────────────
+
+groups:
+  - name: sintomas-del-usuario
+    rules:
+      # ── Alerta 1: demasiados errores ──
+      - alert: TasaDeErrorAlta
+        expr: |
+          sum(rate(http_requests_total{codigo=~"5.."}[5m]))
+          / sum(rate(http_requests_total[5m])) > 0.05
+        for: 2m          # la condición tiene que sostenerse 2 minutos
+        labels:
+          severidad: critica
+        annotations:
+          summary: "Más del 5% de las requests está fallando"
+          description: "La tasa de error superó el 5% durante 2 minutos seguidos."
+
+      # ── Alerta 2: la app responde lento ──
+      - alert: LatenciaAlta
+        expr: |
+          histogram_quantile(0.95,
+            sum(rate(http_duration_seconds_bucket[5m])) by (le)) > 1
+        for: 2m
+        labels:
+          severidad: warning
+        annotations:
+          summary: "El p95 de latencia superó 1 segundo"
+          description: "El 5% de los usuarios está esperando más de 1 segundo."
+
+      # ── Alerta 3: la app no responde ──
+      - alert: ServicioCaido
+        expr: up{job="app-demo"} == 0
+        for: 1m
+        labels:
+          severidad: critica
+        annotations:
+          summary: "La aplicación no responde al scrape"
+          description: "Prometheus no puede alcanzar el endpoint /metrics."

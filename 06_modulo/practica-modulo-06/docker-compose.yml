@@ -1,0 +1,55 @@
+# ─────────────────────────────────────────────────────────────
+# Stack de observabilidad — práctica del Módulo 6
+#
+# Tres servicios:
+#   app         → tu aplicación, expone /metrics
+#   prometheus  → recolecta y guarda las métricas
+#   grafana     → las dibuja
+#
+# Levantar con:  docker compose up -d
+# Apagar con:    docker compose down
+# ─────────────────────────────────────────────────────────────
+
+services:
+  app:
+    build: ./app
+    container_name: obs-app
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:v2.53.0
+    container_name: obs-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      # Montamos la config desde el disco: si la editás,
+      # solo hace falta reiniciar el contenedor.
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/alertas.yml:/etc/prometheus/alertas.yml:ro
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.retention.time=24h"
+    depends_on:
+      - app
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:11.1.0
+    container_name: obs-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      # Credenciales de la práctica. NUNCA uses esto en producción.
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    volumes:
+      # Provisioning: el datasource y el dashboard quedan cargados
+      # automáticamente al arrancar. No hay que clickear nada.
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+    depends_on:
+      - prometheus
+    restart: unless-stopped

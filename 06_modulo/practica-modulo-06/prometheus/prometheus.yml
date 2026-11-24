@@ -1,0 +1,27 @@
+# ─────────────────────────────────────────────────────────────
+# Configuración de Prometheus — práctica del Módulo 6
+# ─────────────────────────────────────────────────────────────
+
+global:
+  # Cada cuánto va a buscar las métricas a cada target.
+  scrape_interval: 15s
+  # Cada cuánto evalúa las reglas de alerta.
+  evaluation_interval: 15s
+
+# Archivos con reglas de alerta.
+rule_files:
+  - "alertas.yml"
+
+# Los targets: a quién le pide métricas.
+scrape_configs:
+  # Prometheus se monitorea a sí mismo.
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  # Nuestra aplicación. "app" es el nombre del servicio en
+  # docker-compose: Docker resuelve ese nombre a su IP interna.
+  - job_name: "app-demo"
+    metrics_path: "/metrics"
+    static_configs:
+      - targets: ["app:8000"]

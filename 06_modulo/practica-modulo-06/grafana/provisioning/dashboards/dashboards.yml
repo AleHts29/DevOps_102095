@@ -1,0 +1,13 @@
+# Le dice a Grafana dónde buscar dashboards en JSON.
+apiVersion: 1
+
+providers:
+  - name: "practica-modulo-6"
+    orgId: 1
+    folder: ""
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: true
+    options:
+      path: /var/lib/grafana/dashboards

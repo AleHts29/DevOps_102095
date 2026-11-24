@@ -1,0 +1,11 @@
+# Conecta Grafana con Prometheus automáticamente al arrancar.
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    # "prometheus" es el nombre del servicio en docker-compose.
+    url: http://prometheus:9090
+    isDefault: true
+    uid: prometheus
